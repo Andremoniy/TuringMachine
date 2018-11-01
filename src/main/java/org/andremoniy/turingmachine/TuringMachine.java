@@ -11,6 +11,9 @@ public class TuringMachine {
 
     public TuringMachine(final List<String> rules) {
         for (String rule : rules) {
+            if (rule.startsWith("//")) {
+                continue;
+            }
             final String[] parts = rule.split(";");
             final Map<Character, Triple<Character, Movement, Integer>> symbolMap = rulesTable.computeIfAbsent(Integer.parseInt(parts[0]), integer -> new HashMap<>());
             symbolMap.put(parts[1].charAt(0), new Triple<>(parts[2].charAt(0), Movement.valueOf(parts[3]), parts.length > 4 ? Integer.parseInt(parts[4]) : null));
