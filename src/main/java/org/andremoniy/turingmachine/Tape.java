@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 public class Tape {
 
     private static final Character EMPTY = ' ';
+
     private final Map<Integer, Character> strip = new HashMap<>();
 
     Tape(final String string) {

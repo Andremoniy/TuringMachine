@@ -1,15 +1,13 @@
 package org.andremoniy.turingmachine;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class TuringMachine {
 
-    private final Map<Integer, Map<Character, Triple<Character, Movement, Integer>>> rulesTable = new HashMap<>();
+    private final Map<Integer, Map<Character, Triple<Character, Movement, Integer>>> rulesTable;
 
     public TuringMachine(final List<String> rules) {
+        final Map<Integer, Map<Character, Triple<Character, Movement, Integer>>> rulesTable = new HashMap<>();
         for (String rule : rules) {
             if (rule.startsWith("//")) {
                 continue;
@@ -17,10 +15,12 @@ public class TuringMachine {
             final String[] parts = rule.split(";");
             final Map<Character, Triple<Character, Movement, Integer>> symbolMap = rulesTable.computeIfAbsent(Integer.parseInt(parts[0]), integer -> new HashMap<>());
             symbolMap.put(parts[1].charAt(0), new Triple<>(parts[2].charAt(0), Movement.valueOf(parts[3]), parts.length > 4 ? Integer.parseInt(parts[4]) : null));
+
         }
+        this.rulesTable = Collections.unmodifiableMap(rulesTable);
     }
 
-    public void process(Tape tape) {
+    public void process(final Tape tape) {
         int headPosition = 0;
         int state = 0;
         do {
@@ -52,7 +52,7 @@ public class TuringMachine {
         final B b;
         final C c;
 
-        Triple(A a, B b, C c) {
+        Triple(final A a, final B b, final C c) {
             this.a = a;
             this.b = b;
             this.c = c;
